@@ -124,8 +124,13 @@ class AVLNode(
         return treeNumbers
     }
 
-    fun deleteValue(targetValue: Int) {
-        if (nodeValue == targetValue) {  // deleting root
+    fun deleteValue(targetValue: Int): AVLNode? {
+        if (nodeValue != targetValue && leftNode == null && rightNode == null) {
+            println("Такого элемента нет")
+            return null
+        }
+        else if (leftNode )
+        if (nodeValue == targetValue) {
             if (leftNode == null && rightNode == null) {
                 nodeValue = null
             } else if (leftNode == null) {
@@ -137,7 +142,7 @@ class AVLNode(
                 leftNode = leftNode?.rightNode
                 rightNode = leftNode?.leftNode
             } else {
-                val theSmallestNode = rightNode!!.walkThroughTree(walkType = "обратный")[0]
+                val theSmallestNode = rightNode!!.getSmallest()
                 theSmallestNode?.nodeValue?.let {
                     val nodeParentOfTheSmallestNode = findElementThatChildEquals(it)?.first
                     if (nodeParentOfTheSmallestNode?.leftNode == null) {
@@ -151,27 +156,11 @@ class AVLNode(
                 }
                 nodeValue = theSmallestNode?.nodeValue
             }
-        } else {
-            val pair = findElementThatChildEquals(targetValue)
-            if (pair == null) {
-                println("Такого элемента нет")
-            } else {
-                val (node, isLeft) = pair
-                if (isLeft) {
-                    if (node?.leftNode?.rightNode != null) {
-                        node.leftNode = node.leftNode?.rightNode
-                    } else {
-                        node?.leftNode = node?.leftNode?.leftNode
-                    }
-                } else {
-                    if (node?.rightNode?.leftNode != null) {
-                        node.rightNode = node.rightNode?.leftNode
-                    } else {
-                        node?.rightNode = node?.rightNode?.rightNode
-                    }
-                }
-            }
         }
+    }
+
+    private fun getSmallest(): AVLNode {
+        return leftNode?.getSmallest() ?: this
     }
 
     private fun findElementThatChildEquals(targetValue: Int): Pair<AVLNode?, Boolean>? {

@@ -131,7 +131,7 @@ class Node(
 
 fun main() {
     val n = 5
-    val numbers = (0 until n).map { Random.nextInt(0, n + 1) }
+    val numbers = listOf(4, 5, 3, 2, 10, 11)
     println(numbers)
 
     val tree = Node()
@@ -145,7 +145,7 @@ fun main() {
 
     println(tree.getTreeHeight())
     println(tree.findElement(7))
-    tree.deleteValue(7)
+    tree.deleteValue(4)
 
     // for check that node deleted
     println(tree.walkThroughTree(walkType = "симметричный").map { it?.nodeValue })
